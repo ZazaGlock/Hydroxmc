@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MinePlay — Staff Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#05070E;
+  --bg2:#080C18;
+  --sidebar-w:255px;
+  --blue:#3B82F6;
+  --blue-l:#60A5FA;
+  --blue-d:#1E3A8A;
+  --blue-g:#93C5FD;
+  --text:#E2E8F0;
+  --muted:#64748B;
+  --muted2:#94A3B8;
+  --border:rgba(59,130,246,0.13);
+  --glass:rgba(8,12,24,0.72);
+  --radius:12px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+#aurora-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.aurora-layer{position:absolute;border-radius:50%;filter:blur(80px);opacity:0;animation:aurora-move 18s ease-in-out infinite;}
+.a1{width:700px;height:400px;background:radial-gradient(ellipse,rgba(29,78,216,.55) 0%,transparent 70%);top:-10%;left:-10%;animation-duration:20s;animation-delay:0s;}
+.a2{width:600px;height:500px;background:radial-gradient(ellipse,rgba(67,56,202,.45) 0%,transparent 70%);top:30%;right:-8%;animation-duration:24s;animation-delay:-6s;}
+.a3{width:800px;height:350px;background:radial-gradient(ellipse,rgba(14,165,233,.3) 0%,transparent 70%);bottom:-5%;left:20%;animation-duration:22s;animation-delay:-10s;}
+.a4{width:500px;height:500px;background:radial-gradient(ellipse,rgba(99,102,241,.25) 0%,transparent 70%);top:10%;left:35%;animation-duration:26s;animation-delay:-4s;}
+@keyframes aurora-move{0%{opacity:0;transform:translate(0,0) scale(1);}15%{opacity:1;}50%{transform:translate(40px,-30px) scale(1.08);}85%{opacity:1;}100%{opacity:0;transform:translate(0,0) scale(1);}}
+#star-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── LOGIN ── */
+#login-overlay{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:2rem;transition:opacity .5s ease;}
+.login-panel{background:rgba(8,12,24,.85);border:1px solid var(--border);border-radius:20px;backdrop-filter:blur(28px);padding:3rem 2.8rem;width:100%;max-width:420px;text-align:center;box-shadow:0 0 100px rgba(59,130,246,.09);position:relative;overflow:hidden;}
+.login-panel::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:300px;height:120px;background:radial-gradient(ellipse,rgba(59,130,246,.18) 0%,transparent 70%);pointer-events:none;}
+.login-logo{font-family:'Rajdhani',sans-serif;font-size:2.7rem;font-weight:700;color:#fff;margin-bottom:.15rem;}
+.login-logo span{color:var(--blue-l);}
+.login-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);border:1px solid var(--border);border-radius:999px;padding:.25rem .85rem;margin-bottom:2.2rem;}
+.btn-discord{display:inline-flex;align-items:center;justify-content:center;gap:.75rem;background:#5865F2;color:#fff;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:600;padding:.9rem 2rem;border-radius:10px;border:none;cursor:pointer;box-shadow:0 0 30px rgba(88,101,242,.4);transition:transform .2s,box-shadow .2s;width:100%;position:relative;overflow:hidden;}
+.btn-discord::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.13) 50%,transparent 70%);transform:translateX(-100%);transition:transform .5s;}
+.btn-discord:hover::after{transform:translateX(100%);}
+.btn-discord:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(88,101,242,.6);}
+.btn-discord svg{width:22px;height:22px;flex-shrink:0;}
+.login-note{font-size:.75rem;color:var(--muted);margin-top:1.2rem;line-height:1.65;}
+.login-note strong{color:var(--blue-l);}
+
+/* ── ERROR / DENIED ── */
+#denied-overlay{position:fixed;inset:0;z-index:9999;background:var(--bg);display:none;align-items:center;justify-content:center;padding:2rem;}
+.denied-panel{background:rgba(8,12,24,.85);border:1px solid rgba(239,68,68,.2);border-radius:20px;backdrop-filter:blur(28px);padding:3rem 2.8rem;width:100%;max-width:420px;text-align:center;}
+.denied-icon{font-size:2.5rem;margin-bottom:1rem;}
+.denied-title{font-family:'Rajdhani',sans-serif;font-size:1.8rem;font-weight:700;color:#F87171;margin-bottom:.5rem;}
+.denied-msg{font-size:.85rem;color:var(--muted2);line-height:1.7;margin-bottom:1.5rem;}
+.btn-retry{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:rgba(239,68,68,.12);color:#F87171;border:1px solid rgba(239,68,68,.25);font-size:.88rem;font-weight:600;padding:.7rem 1.5rem;border-radius:9px;cursor:pointer;transition:background .2s;}
+.btn-retry:hover{background:rgba(239,68,68,.2);}
+
+/* ── LOADING ── */
+#loading-overlay{position:fixed;inset:0;z-index:9998;background:var(--bg);display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
+.spinner{width:36px;height:36px;border:3px solid rgba(59,130,246,.15);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{font-size:.85rem;color:var(--muted2);}
+
+/* ── APP ── */
+#app{display:none;position:relative;z-index:1;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:rgba(5,7,14,.93);border-right:1px solid var(--border);backdrop-filter:blur(22px);display:flex;flex-direction:column;z-index:200;}
+.sb-header{padding:1.5rem 1.3rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+.sb-logo{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:.55rem;}
+.sb-logo span{color:var(--blue-l);}
+.sb-logo-icon{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--blue-d),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.sb-online{display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--muted2);margin-top:.5rem;}
+.dot-green{width:6px;height:6px;border-radius:50%;background:#22C55E;box-shadow:0 0 6px #22C55E;animation:pd 2.2s ease-in-out infinite;}
+@keyframes pd{0%,100%{opacity:1;}50%{opacity:.25;}}
+.sb-nav{flex:1;overflow-y:auto;padding:.8rem 0;}
+.sb-nav::-webkit-scrollbar{width:3px;}
+.sb-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);padding:.65rem 1.3rem .3rem;}
+.nav-btn{display:flex;align-items:center;gap:.7rem;padding:.58rem 1.3rem;width:100%;background:none;border:none;font-size:.85rem;font-weight:500;color:var(--muted2);cursor:pointer;text-align:left;border-left:2px solid transparent;transition:color .15s,background .15s,border-color .15s;}
+.nav-btn .ni{font-size:.95rem;opacity:.65;transition:opacity .15s;flex-shrink:0;}
+.nav-btn:hover{color:var(--text);background:rgba(59,130,246,.06);}
+.nav-btn:hover .ni{opacity:1;}
+.nav-btn.active{color:var(--blue-l);background:rgba(59,130,246,.1);border-left-color:var(--blue);font-weight:600;}
+.nav-btn.active .ni{opacity:1;}
+.sb-footer{padding:1rem 1.3rem;border-top:1px solid var(--border);flex-shrink:0;}
+.user-chip{display:flex;align-items:center;gap:.65rem;background:rgba(59,130,246,.06);border:1px solid var(--border);border-radius:9px;padding:.55rem .75rem;}
+.u-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.u-avatar-placeholder{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue-d),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;}
+.u-name{font-size:.8rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.u-role{font-size:.68rem;color:var(--blue-l);}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar-w);min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(5,7,14,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:.8rem 2.2rem;display:flex;align-items:center;justify-content:space-between;}
+.tb-title{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:#fff;}
+.tb-crumb{font-size:.72rem;color:var(--muted);margin-top:.08rem;}
+.tb-right{display:flex;gap:.6rem;align-items:center;}
+.pill{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .75rem;border-radius:999px;font-size:.7rem;font-weight:600;letter-spacing:.05em;border:1px solid;}
+
+.content{padding:2rem 2.2rem 3.5rem;}
+.page{display:none;}
+.page.active{display:block;}
+
+.s-eye{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.45rem;}
+.s-title{font-family:'Rajdhani',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:.55rem;}
+.s-desc{font-size:.88rem;color:var(--muted2);line-height:1.75;max-width:560px;margin-bottom:1.8rem;}
+
+.card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(12px);padding:1.5rem;transition:border-color .22s,box-shadow .22s;}
+.card:hover{border-color:rgba(96,165,250,.3);box-shadow:0 0 28px rgba(59,130,246,.08);}
+
+/* INFO ACCORDION */
+.acc-list{display:flex;flex-direction:column;gap:.55rem;}
+.acc-item{background:var(--glass);border:1px solid var(--border);border-radius:10px;backdrop-filter:blur(12px);overflow:hidden;transition:border-color .2s;}
+.acc-item.open{border-color:rgba(96,165,250,.35);}
+.acc-btn{width:100%;background:none;border:none;display:flex;align-items:center;gap:1rem;padding:.95rem 1.3rem;cursor:pointer;text-align:left;}
+.acc-icon{width:34px;height:34px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.18);}
+.acc-q{font-family:'Rajdhani',sans-serif;font-size:1.02rem;font-weight:600;color:#fff;flex:1;transition:color .18s;}
+.acc-btn:hover .acc-q{color:var(--blue-l);}
+.acc-chev{font-size:.72rem;color:var(--muted);flex-shrink:0;transition:transform .3s;}
+.acc-item.open .acc-chev{transform:rotate(180deg);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .38s ease,padding .28s;font-size:.86rem;color:var(--muted2);line-height:1.75;padding:0 1.3rem;}
+.acc-item.open .acc-body{max-height:320px;padding:.1rem 1.3rem 1.1rem;}
+.acc-body .ex{margin-top:.65rem;background:rgba(59,130,246,.07);border-left:2px solid var(--blue);border-radius:0 7px 7px 0;padding:.55rem .85rem;font-size:.8rem;color:var(--blue-l);line-height:1.6;}
+.acc-body .ex strong{color:var(--blue-g);}
+
+/* SANCIONES */
+.sanc-tabs{display:flex;gap:.5rem;margin-bottom:1.4rem;}
+.sanc-tab{font-size:.82rem;font-weight:600;padding:.42rem 1.2rem;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all .18s;}
+.sanc-tab:hover{color:var(--text);border-color:rgba(96,165,250,.35);}
+.sanc-tab.active{background:rgba(59,130,246,.14);color:var(--blue-l);border-color:var(--blue);}
+.sanc-panel{display:none;}
+.sanc-panel.active{display:block;}
+.tw{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(12px);}
+.st{width:100%;border-collapse:collapse;font-size:.86rem;}
+.st thead tr{background:rgba(5,7,14,.6);}
+.st th{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:.8rem 1.1rem;border-bottom:1px solid var(--border);text-align:left;}
+.st th:not(:first-child){text-align:center;}
+.st td{padding:.82rem 1.1rem;border-bottom:1px solid rgba(59,130,246,.055);vertical-align:middle;}
+.st td:not(:first-child){text-align:center;}
+.st tbody tr:last-child td{border-bottom:none;}
+.st tbody tr{transition:background .15s;}
+.st tbody tr:hover td{background:rgba(59,130,246,.05);}
+.inf-name{color:var(--text);font-weight:500;}
+.dur{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--blue-l);font-size:.97rem;}
+.dur.perm{color:#F87171;}
+.strike-head{background:rgba(59,130,246,.08);color:var(--blue-l);font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;}
+.section-note{display:flex;align-items:flex-start;gap:.65rem;background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.18);border-radius:9px;padding:.85rem 1.1rem;font-size:.82rem;color:#FDE68A;line-height:1.6;margin-bottom:1.3rem;}
+
+/* MODS */
+.mod-warn{display:flex;align-items:flex-start;gap:.65rem;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:9px;padding:.85rem 1.1rem;font-size:.82rem;color:#FCA5A5;line-height:1.6;margin-bottom:1.4rem;}
+.mods-col{display:flex;flex-direction:column;gap:.65rem;}
+.mod-row{display:flex;align-items:flex-start;gap:1rem;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:.95rem 1.2rem;backdrop-filter:blur(10px);transition:border-color .2s;}
+.mod-row:hover{border-color:rgba(239,68,68,.3);}
+.mod-x{width:24px;height:24px;border-radius:50%;background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.28);display:flex;align-items:center;justify-content:center;color:#F87171;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:.15rem;}
+.mod-info h4{font-family:'Rajdhani',sans-serif;font-size:.97rem;font-weight:700;color:#fff;margin-bottom:.12rem;}
+.mod-info p{font-size:.81rem;color:var(--muted2);line-height:1.55;}
+
+/* JERARQUÍA */
+.hier-list{display:flex;flex-direction:column;gap:.7rem;}
+.rank-card{display:flex;align-items:center;gap:1.1rem;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:.95rem 1.3rem;backdrop-filter:blur(10px);transition:border-color .2s,transform .2s;}
+.rank-card:hover{border-color:rgba(96,165,250,.35);transform:translateX(4px);}
+.r-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.r-body{flex:1;}
+.r-name{font-family:'Rajdhani',sans-serif;font-size:1.08rem;font-weight:700;color:#fff;}
+.r-desc{font-size:.8rem;color:var(--muted2);margin-top:.1rem;line-height:1.5;}
+.r-perms{margin-top:.45rem;display:flex;flex-wrap:wrap;gap:.35rem;}
+.r-chip{font-size:.68rem;padding:.13rem .5rem;border-radius:5px;background:rgba(59,130,246,.1);color:var(--blue-l);border:1px solid rgba(59,130,246,.18);}
+.r-tag{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.22rem .7rem;border-radius:999px;border:1px solid;white-space:nowrap;}
+
+/* COMANDOS */
+.cmd-tabs{display:flex;gap:.5rem;margin-bottom:1.4rem;flex-wrap:wrap;}
+.cmd-tab{font-size:.8rem;font-weight:600;padding:.4rem 1rem;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted2);cursor:pointer;transition:all .18s;}
+.cmd-tab:hover{color:var(--text);border-color:rgba(96,165,250,.35);}
+.cmd-tab.active{background:rgba(59,130,246,.14);color:var(--blue-l);border-color:var(--blue);}
+.cmd-panel{display:none;}
+.cmd-panel.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.9rem;}
+.cmd-entry{display:flex;flex-direction:column;gap:.18rem;padding:.72rem 1rem;background:var(--glass);border:1px solid var(--border);border-radius:9px;backdrop-filter:blur(8px);transition:border-color .18s;}
+.cmd-entry:hover{border-color:rgba(96,165,250,.3);}
+.cmd-code{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:var(--blue-g);}
+.cmd-desc{font-size:.77rem;color:var(--muted2);}
+
+/* REGLAS */
+.rules-list{display:flex;flex-direction:column;gap:.75rem;}
+.rule-card{display:flex;gap:1rem;align-items:flex-start;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:1rem 1.3rem;backdrop-filter:blur(10px);transition:border-color .2s;}
+.rule-card:hover{border-color:rgba(96,165,250,.3);}
+.r-num{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:var(--blue);min-width:2rem;opacity:.45;line-height:1.1;}
+.r-bh h4{font-family:'Rajdhani',sans-serif;font-size:.97rem;font-weight:700;color:#fff;margin-bottom:.18rem;}
+.r-bh p{font-size:.83rem;color:var(--muted2);line-height:1.65;}
+
+/* FAQ */
+.faq-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2rem;text-align:center;background:var(--glass);border:1px dashed var(--border);border-radius:var(--radius);backdrop-filter:blur(10px);}
+.faq-empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.5;}
+.faq-empty h3{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:var(--muted2);margin-bottom:.4rem;}
+.faq-empty p{font-size:.83rem;color:var(--muted);line-height:1.65;max-width:340px;}
+
+/* HERRAMIENTAS */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;}
+.tool-card{display:flex;flex-direction:column;gap:.6rem;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;backdrop-filter:blur(12px);transition:border-color .22s,box-shadow .22s,transform .2s;}
+.tool-card:hover{border-color:rgba(96,165,250,.35);box-shadow:0 0 28px rgba(59,130,246,.09);transform:translateY(-2px);}
+.tool-icon{font-size:1.6rem;margin-bottom:.2rem;}
+.tool-title{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;}
+.tool-desc{font-size:.82rem;color:var(--muted2);line-height:1.6;}
+.tool-tag{align-self:flex-start;font-size:.68rem;font-weight:600;padding:.15rem .55rem;border-radius:5px;border:1px solid;margin-top:.2rem;}
+
+.mob-btn{display:none;position:fixed;bottom:1.4rem;right:1.4rem;z-index:300;width:46px;height:46px;border-radius:50%;background:var(--blue);border:none;color:#fff;font-size:1.2rem;cursor:pointer;box-shadow:0 0 20px rgba(59,130,246,.5);}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform .3s ease;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .topbar,.content{padding-left:1.2rem;padding-right:1.2rem;}
+  .mob-btn{display:flex;align-items:center;justify-content:center;}
+  .cmd-panel.active{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="aurora-wrap">
+  <div class="aurora-layer a1"></div>
+  <div class="aurora-layer a2"></div>
+  <div class="aurora-layer a3"></div>
+  <div class="aurora-layer a4"></div>
+</div>
+<canvas id="star-canvas"></canvas>
+
+<!-- LOGIN -->
+<div id="login-overlay">
+  <div class="login-panel">
+    <div class="login-logo"><span>Mine</span>Play</div>
+    <div class="login-badge">⚙ Staff Portal</div>
+    <button class="btn-discord" id="login-btn" onclick="startDiscordLogin()">
+      <svg viewBox="0 0 127.14 96.36" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M107.7 8.07A105.16 105.16 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"/></svg>
+      Iniciar sesión con Discord
+    </button>
+    <div class="login-note">Acceso exclusivo para <strong>Staff de MinePlay</strong>.<br>Solo usuarios en whitelist pueden ingresar.</div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading-overlay" style="display:none;position:fixed;inset:0;z-index:9998;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">Verificando acceso...</div>
+</div>
+
+<!-- ACCESO DENEGADO -->
+<div id="denied-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--bg);align-items:center;justify-content:center;padding:2rem;">
+  <div class="denied-panel">
+    <div class="denied-icon">🚫</div>
+    <div class="denied-title">Acceso Denegado</div>
+    <div class="denied-msg">Tu cuenta de Discord no está en la whitelist del Staff.<br>Si creés que es un error, contactá a un Administrador.</div>
+    <button class="btn-retry" onclick="location.href=location.pathname">← Volver al inicio</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo"><div class="sb-logo-icon">⛏</div><span>Mine</span>Play</div>
+      <div class="sb-online"><span class="dot-green"></span>play.mineplay.net</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-label">Información</div>
+      <button class="nav-btn active" onclick="showPage('info',this)"><span class="ni">📋</span> Info General</button>
+      <button class="nav-btn" onclick="showPage('faq',this)"><span class="ni">❓</span> FAQ</button>
+      <div class="sb-label">Normativa</div>
+      <button class="nav-btn" onclick="showPage('sanciones',this)"><span class="ni">⚖️</span> Sanciones</button>
+      <button class="nav-btn" onclick="showPage('mods',this)"><span class="ni">🚫</span> Mods Prohibidos</button>
+      <button class="nav-btn" onclick="showPage('reglas',this)"><span class="ni">📜</span> Reglas</button>
+      <div class="sb-label">Servidor</div>
+      <button class="nav-btn" onclick="showPage('jerarquia',this)"><span class="ni">👑</span> Jerarquía</button>
+      <button class="nav-btn" onclick="showPage('comandos',this)"><span class="ni">💻</span> Comandos</button>
+      <div class="sb-label">Staff</div>
+      <button class="nav-btn" onclick="showPage('herramientas',this)"><span class="ni">🛠️</span> Herramientas Staff</button>
+    </nav>
+    <div class="sb-footer">
+      <div class="user-chip">
+        <div id="u-av-wrap"></div>
+        <div>
+          <div class="u-name" id="u-name">—</div>
+          <div class="u-role" id="u-role">Staff</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="tb-title" id="tb-title">Info General</div>
+        <div class="tb-crumb">MinePlay Staff › <span id="tb-crumb">Información</span></div>
+      </div>
+      <div class="tb-right">
+        <span class="pill" style="color:#4ADE80;border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.07);">● Online</span>
+        <span class="pill" style="color:var(--blue-l);border-color:rgba(96,165,250,.22);background:rgba(96,165,250,.06);">Java 1.21</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- INFO GENERAL -->
+      <div class="page active" id="page-info">
+        <div class="s-eye">Conceptos del servidor</div>
+        <h1 class="s-title">Info General</h1>
+        <p class="s-desc">Definiciones y guías esenciales para el staff. Hacé clic en cada pregunta para ver la respuesta.</p>
+        <div class="acc-list">
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">💬</div><span class="acc-q">¿Qué es el Flood?</span><span class="acc-chev">▼</span></button><div class="acc-body">El flood es enviar mensajes repetidos de forma continua en el chat, ya sea el mismo texto varias veces o mensajes vacíos seguidos, con el objetivo de saturar el canal y molestar al resto de jugadores.<div class="ex"><strong>Ejemplo:</strong> "hola" · "hola" · "hola" · "alguien?" enviados en segundos. → Sanción: Advertencia → Mute 15m → Mute 30m.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">📢</div><span class="acc-q">¿Qué es el Spam?</span><span class="acc-chev">▼</span></button><div class="acc-body">El spam es enviar mensajes sin sentido, publicidad no solicitada o contenido repetitivo que no aporta nada a la conversación. Incluye links de otros servidores, caracteres aleatorios o copiar y pegar el mismo párrafo.<div class="ex"><strong>Sanción:</strong> Advertencia → Mute 15m → Mute 30m según el strike acumulado.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">📸</div><span class="acc-q">¿Qué es una SS y cómo se solicita?</span><span class="acc-chev">▼</span></button><div class="acc-body">Una SS (ScreenShot) es una captura de pantalla del cliente de juego del jugador. Se solicita cuando el staff sospecha uso de hacks. El jugador debe compartir la pantalla en vivo o enviar capturas que muestren el cliente limpio.<div class="ex"><strong>Procedimiento:</strong> Notificá al jugador por /msg → Dale máx. 5 min → Si se niega, aplicá "Refusal to SS" según tabla de sanciones.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">🎫</div><span class="acc-q">¿Cómo gestionar un Ticket?</span><span class="acc-chev">▼</span></button><div class="acc-body">Los tickets son el canal oficial de soporte. Cada ticket debe responderse en un máximo de 48 hs. Antes de cerrarlo, asegurate de que el problema esté resuelto o debidamente explicado.<div class="ex"><strong>Tipos:</strong> Whitelist · Apelación de ban · Reporte · Bug report · Consulta general.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">⚠️</div><span class="acc-q">¿Qué es un Warn y cómo se aplica?</span><span class="acc-chev">▼</span></button><div class="acc-body">Un warn es una advertencia formal registrada en el sistema. Se usa para infracciones leves antes de aplicar un mute o ban. Los warns se acumulan como strikes y escalan la sanción correspondiente.<div class="ex"><strong>Comando:</strong> /warn [jugador] [motivo] — Los warns expiran a los 30 días.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">🔨</div><span class="acc-q">¿Cómo procesar una Apelación de Ban?</span><span class="acc-chev">▼</span></button><div class="acc-body">Las apelaciones solo las revisan Admins o superiores. Revisá los logs del jugador, el motivo del ban y la coherencia de lo que alega. Si el ban fue correcto, denegala con explicación. Si fue un error, levantalo y notificá al staff.<div class="ex"><strong>Criterios de aceptación:</strong> Ban por error · Primera infracción leve · Evidencia insuficiente al momento del ban.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">📋</div><span class="acc-q">¿Qué es el Ban Evading?</span><span class="acc-chev">▼</span></button><div class="acc-body">Ban Evading es cuando un jugador sancionado entra con otra cuenta para evadir su ban activo. Extiende la sanción original y suma una nueva a la cuenta alternativa.<div class="ex"><strong>Acción:</strong> Baneá la cuenta alternativa con el tiempo restante del ban original + bonus de la tabla de evasión. Reportalo a un Admin.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">🤝</div><span class="acc-q">¿Qué es ser Cómplice Hacker?</span><span class="acc-chev">▼</span></button><div class="acc-body">Un jugador es cómplice hacker si sabía que otro usaba hacks y no lo reportó, o colaboró activamente con el infractor para evadir la detección del staff.<div class="ex"><strong>Sanción:</strong> Misma escala que Hacks Blatant (10/20/30 días). La evidencia debe ser sólida antes de aplicar esta categoría.</div></div></div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="page" id="page-faq">
+        <div class="s-eye">Preguntas frecuentes</div>
+        <h1 class="s-title">FAQ</h1>
+        <p class="s-desc">Sección reservada para preguntas y respuestas frecuentes del staff.</p>
+        <div class="faq-empty">
+          <div class="faq-empty-icon">📭</div>
+          <h3>Sección sin contenido aún</h3>
+          <p>Las preguntas frecuentes serán agregadas por el Owner. Volvé a revisar esta sección cuando esté habilitada.</p>
+        </div>
+      </div>
+
+      <!-- SANCIONES -->
+      <div class="page" id="page-sanciones">
+        <div class="s-eye">Tabla oficial</div>
+        <h1 class="s-title">Sanciones</h1>
+        <p class="s-desc">Aplicá siempre la sanción correspondiente al strike del jugador. En caso de duda, consultá a un Admin antes de ejecutar.</p>
+        <div class="sanc-tabs">
+          <button class="sanc-tab active" onclick="showSanc('ban',this)">🔨 Baneos</button>
+          <button class="sanc-tab" onclick="showSanc('mute',this)">🔇 Mutes</button>
+        </div>
+        <div class="sanc-panel active" id="sanc-ban">
+          <div class="section-note"><span>⚠️</span><span>Los strikes se acumulan por tipo de infracción. Consultá el historial del jugador antes de aplicar la sanción.</span></div>
+          <div class="tw"><table class="st"><thead><tr><th>Causa</th><th class="strike-head">Strike 1</th><th class="strike-head">Strike 2</th><th class="strike-head">Strike 3+</th></tr></thead><tbody>
+            <tr><td class="inf-name">Hacks Blatant</td><td class="dur">10 Días</td><td class="dur">20 Días</td><td class="dur">30 Días</td></tr>
+            <tr><td class="inf-name">Hacks detectados en SS</td><td class="dur">15 Días</td><td class="dur">30 Días</td><td class="dur">45 Días</td></tr>
+            <tr><td class="inf-name">Hacks admitidos pre-SS</td><td class="dur">5 Días</td><td class="dur">15 Días</td><td class="dur">25 Días</td></tr>
+            <tr><td class="inf-name">Cómplice Hacker</td><td class="dur">10 Días</td><td class="dur">20 Días</td><td class="dur">30 Días</td></tr>
+            <tr><td class="inf-name">Evasión de Sanción (Ban Evading)</td><td class="dur">15 Días</td><td class="dur">20 Días</td><td class="dur">25 Días</td></tr>
+            <tr><td class="inf-name">Refusal to SS</td><td class="dur">10 Días</td><td class="dur">20 Días</td><td class="dur">30 Días</td></tr>
+            <tr><td class="inf-name">Uso de Mods Ilegales</td><td class="dur">5 Días</td><td class="dur">10 Días</td><td class="dur">15 Días</td></tr>
+            <tr><td class="inf-name">Abuso de Bugs (Bug Abuse)</td><td class="dur">1 Día</td><td class="dur">5 Días</td><td class="dur">10 Días</td></tr>
+            <tr><td class="inf-name">Estafas In-Game</td><td class="dur">3 Días</td><td class="dur">10 Días</td><td class="dur">15 Días</td></tr>
+            <tr><td class="inf-name">Dupe / Doxing / Ataques DDoS</td><td class="dur perm" colspan="3" style="text-align:center;letter-spacing:.04em;">BAN PERMANENTE</td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="sanc-panel" id="sanc-mute">
+          <div class="section-note"><span>⚠️</span><span>Los strikes de mutes se cuentan por separado de los baneos y por categoría de infracción.</span></div>
+          <div class="tw"><table class="st"><thead><tr><th>Causa de Penalización</th><th class="strike-head">Strike 1</th><th class="strike-head">Strike 2</th><th class="strike-head">Strike 3+</th></tr></thead><tbody>
+            <tr><td class="inf-name">Flood / Spam Continuo</td><td class="dur" style="color:var(--muted2);font-size:.82rem">Advertencia</td><td class="dur">Mute 15m</td><td class="dur">Mute 30m</td></tr>
+            <tr><td class="inf-name">Lenguaje Ofensivo / Contenido +18</td><td class="dur">Mute 30m</td><td class="dur">Mute 1h</td><td class="dur">Mute 3h</td></tr>
+            <tr><td class="inf-name">Insultos directos a la Red / Servidor</td><td class="dur">Mute 1h</td><td class="dur">Mute 3h</td><td class="dur">Mute 6h</td></tr>
+            <tr><td class="inf-name">Falta de Respeto a Miembros Staff</td><td class="dur">Mute 1h</td><td class="dur">Mute 2h</td><td class="dur">Mute 4h</td></tr>
+            <tr><td class="inf-name">Divulgación de IPs de otros servidores</td><td class="dur">Mute 1 Día</td><td class="dur">Mute 3 Días</td><td class="dur">Mute 7 Días</td></tr>
+            <tr><td class="inf-name">Amenazas de Doxing / Ataques de Red</td><td class="dur">Mute 12h</td><td class="dur">Mute 3 Días</td><td class="dur">Mute 7 Días</td></tr>
+          </tbody></table></div>
+        </div>
+      </div>
+
+      <!-- MODS -->
+      <div class="page" id="page-mods">
+        <div class="s-eye">Modificaciones prohibidas</div>
+        <h1 class="s-title">Mods Prohibidos</h1>
+        <p class="s-desc">El uso de cualquiera de estos mods resulta en sanción inmediata. Si hay duda, consultá con un Admin antes de sancionar.</p>
+        <div class="mod-warn"><span>⚠️</span><span>Si un jugador consulta si puede usar algo que no está en esta lista, pedile que abra un ticket. No respondas "sí" sin confirmación de un Admin.</span></div>
+        <div class="mods-col">
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Killaura / Reach Hacks</h4><p>Atacan automáticamente o a distancias imposibles. → Sanción: Hacks Blatant.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>X-Ray / Cave Finder</h4><p>Permiten ver a través de bloques. Incluye texturepacks de X-Ray. → Sanción: Hacks Blatant o detectados en SS.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Speed / Fly Hacks</h4><p>Modifican velocidad o permiten volar fuera de zonas habilitadas. → Sanción: Hacks Blatant.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Autoclicker / Jitter Bot</h4><p>Simula clics automáticos para ventaja en combate. Incluye macros de mouse o teclado orientados a CPS. → Sanción: Uso de Mods Ilegales.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>ESP / WallHack</h4><p>Muestran posición de jugadores o ítems a través de paredes. → Sanción: Hacks Blatant.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Baritone / Auto-Mine Bots</h4><p>Automatizan minería o farmeo sin intervención del jugador. → Sanción: Uso de Mods Ilegales.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Schematica / Litematica Printer</h4><p>Solo el modo printer está prohibido. El modo visualización está permitido. → Sanción: Uso de Mods Ilegales.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Macros de Combate</h4><p>Secuencias automáticas de clics o movimientos asignadas a una tecla para optimizar PvP. → Sanción: Uso de Mods Ilegales.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Freecam</h4><p>Mueve la cámara desconectada del personaje para explorar bases ajenas. → Sanción: Hacks Blatant.</p></div></div>
+        </div>
+      </div>
+
+      <!-- REGLAS -->
+      <div class="page" id="page-reglas">
+        <div class="s-eye">Normativa oficial</div>
+        <h1 class="s-title">Reglas del Servidor</h1>
+        <p class="s-desc">Al conectarse, cada jugador acepta estas reglas. El staff puede sancionar conductas no contempladas si las considera perjudiciales.</p>
+        <div class="rules-list">
+          <div class="rule-card"><div class="r-num">1</div><div class="r-bh"><h4>Respeto entre jugadores</h4><p>Trato respetuoso en todo momento. No se tolera discriminación, insultos, amenazas ni acoso de ningún tipo, ni en el servidor ni en el Discord.</p></div></div>
+          <div class="rule-card"><div class="r-num">2</div><div class="r-bh"><h4>Prohibido el griefing en cualquier forma</h4><p>Destruir o modificar construcciones ajenas está prohibido incluso sin protección. Los logs permiten rastrear todo y hacer rollback.</p></div></div>
+          <div class="rule-card"><div class="r-num">3</div><div class="r-bh"><h4>Cero tolerancia a hacks y trampas</h4><p>Uso de cualquier cliente que otorgue ventaja injusta resulta en ban inmediato. Ver sección Mods Prohibidos para detalle.</p></div></div>
+          <div class="rule-card"><div class="r-num">4</div><div class="r-bh"><h4>No al spam ni flood en el chat</h4><p>El chat es para comunicación normal. No se permite repetir mensajes, publicidad de otros servidores ni links no autorizados.</p></div></div>
+          <div class="rule-card"><div class="r-num">5</div><div class="r-bh"><h4>Proteger las construcciones es responsabilidad del jugador</h4><p>Sin /claim, el servidor no se hace responsable de pérdidas. El staff no puede recuperar ítems en terrenos sin proteger.</p></div></div>
+          <div class="rule-card"><div class="r-num">6</div><div class="r-bh"><h4>Cooperar con el staff</h4><p>Si el staff solicita una SS, el jugador debe presentarla. Negarse es sancionable. Faltar el respeto al staff suma penalización adicional.</p></div></div>
+          <div class="rule-card"><div class="r-num">7</div><div class="r-bh"><h4>No explotar glitches intencionalmente</h4><p>Reportar bugs al staff. Explotarlos intencionalmente para obtener ventaja resulta en sanción por Bug Abuse.</p></div></div>
+          <div class="rule-card"><div class="r-num">8</div><div class="r-bh"><h4>Las decisiones del staff son finales</h4><p>Las apelaciones se realizan por ticket en Discord. Discutir en el chat público o insultar al staff agrava la penalización.</p></div></div>
+        </div>
+      </div>
+
+      <!-- JERARQUÍA -->
+      <div class="page" id="page-jerarquia">
+        <div class="s-eye">Estructura del servidor</div>
+        <h1 class="s-title">Jerarquía</h1>
+        <p class="s-desc">Rangos del servidor, responsabilidades y permisos. Los ascensos los decide exclusivamente el Owner y los Admins.</p>
+        <div class="hier-list">
+          <div class="rank-card"><div class="r-icon" style="background:rgba(245,158,11,.12)">👑</div><div class="r-body"><div class="r-name">Owner</div><div class="r-desc">Máxima autoridad. Gestiona el servidor, plugins y toma las decisiones finales del proyecto.</div><div class="r-perms"><span class="r-chip">Acceso total</span><span class="r-chip">Config server</span><span class="r-chip">Whitelist</span><span class="r-chip">Consola</span></div></div><span class="r-tag" style="color:#F59E0B;border-color:#F59E0B;background:rgba(245,158,11,.1)">Owner</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(239,68,68,.12)">🛡️</div><div class="r-body"><div class="r-name">Administrador</div><div class="r-desc">Gestiona whitelist, apelaciones, configuración de plugins y supervisión del equipo de staff.</div><div class="r-perms"><span class="r-chip">Ban permanente</span><span class="r-chip">Whitelist</span><span class="r-chip">Config plugins</span><span class="r-chip">Tickets</span></div></div><span class="r-tag" style="color:#EF4444;border-color:#EF4444;background:rgba(239,68,68,.1)">Admin</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(139,92,246,.12)">⚖️</div><div class="r-body"><div class="r-name">Moderador</div><div class="r-desc">Aplica sanciones, revisa denuncias, gestiona tickets y mantiene el orden en servidor y Discord.</div><div class="r-perms"><span class="r-chip">Mute/Ban temporal</span><span class="r-chip">Revisar tickets</span><span class="r-chip">Rollback</span><span class="r-chip">SS</span></div></div><span class="r-tag" style="color:#8B5CF6;border-color:#8B5CF6;background:rgba(139,92,246,.1)">Mod</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(6,182,212,.12)">🤝</div><div class="r-body"><div class="r-name">Helper</div><div class="r-desc">Asiste a nuevos jugadores, responde dudas y reporta incidencias al equipo moderador.</div><div class="r-perms"><span class="r-chip">Warn</span><span class="r-chip">Mute corto</span><span class="r-chip">Ver logs</span></div></div><span class="r-tag" style="color:#06B6D4;border-color:#06B6D4;background:rgba(6,182,212,.1)">Helper</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(16,185,129,.12)">⭐</div><div class="r-body"><div class="r-name">VIP</div><div class="r-desc">Jugadores reconocidos por su aporte. Beneficios cosméticos y acceso a eventos exclusivos.</div><div class="r-perms"><span class="r-chip">Homes extra</span><span class="r-chip">Prefijo VIP</span><span class="r-chip">Eventos especiales</span></div></div><span class="r-tag" style="color:#10B981;border-color:#10B981;background:rgba(16,185,129,.1)">VIP</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(59,130,246,.12)">🧑‍🤝‍🧑</div><div class="r-body"><div class="r-name">Jugador</div><div class="r-desc">Miembro activo con acceso completo al survival, economía y eventos del servidor.</div><div class="r-perms"><span class="r-chip">Comandos básicos</span><span class="r-chip">Claims</span><span class="r-chip">Tienda</span></div></div><span class="r-tag" style="color:var(--blue-l);border-color:var(--blue-l);background:rgba(96,165,250,.1)">Player</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(148,163,184,.08)">🌱</div><div class="r-body"><div class="r-name">Nuevo</div><div class="r-desc">Rango de ingreso. Acceso limitado mientras el staff verifica y da la bienvenida al jugador.</div><div class="r-perms"><span class="r-chip">Chat</span><span class="r-chip">/spawn</span><span class="r-chip">Modo lectura</span></div></div><span class="r-tag" style="color:var(--muted2);border-color:var(--muted2);background:rgba(148,163,184,.07)">New</span></div>
+        </div>
+      </div>
+
+      <!-- COMANDOS -->
+      <div class="page" id="page-comandos">
+        <div class="s-eye">Guía rápida</div>
+        <h1 class="s-title">Comandos</h1>
+        <p class="s-desc">Comandos organizados por categoría. [ ] opcionales, &lt; &gt; obligatorios.</p>
+        <div class="cmd-tabs">
+          <button class="cmd-tab active" onclick="showCmd('hogar',this)">🏠 Hogar</button>
+          <button class="cmd-tab" onclick="showCmd('economia',this)">💰 Economía</button>
+          <button class="cmd-tab" onclick="showCmd('terrenos',this)">🛡️ Terrenos</button>
+          <button class="cmd-tab" onclick="showCmd('social',this)">💬 Social</button>
+          <button class="cmd-tab" onclick="showCmd('staff',this)">⚙️ Staff</button>
+        </div>
+        <div class="cmd-panel active" id="cmd-hogar">
+          <div class="cmd-entry"><span class="cmd-code">/sethome [nombre]</span><span class="cmd-desc">Guarda tu posición como hogar</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/home [nombre]</span><span class="cmd-desc">Teletransporta a tu hogar</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/delhome &lt;nombre&gt;</span><span class="cmd-desc">Elimina un hogar guardado</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/homes</span><span class="cmd-desc">Lista todos tus hogares</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/spawn</span><span class="cmd-desc">Vuelve al spawn principal</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/back</span><span class="cmd-desc">Regresa a tu ubicación anterior</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/tpa &lt;jugador&gt;</span><span class="cmd-desc">Solicita teletransporte</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/tpahere &lt;jugador&gt;</span><span class="cmd-desc">Solicita que vengan a vos</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/tpaccept</span><span class="cmd-desc">Acepta solicitud de TP</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/tpdeny</span><span class="cmd-desc">Rechaza solicitud de TP</span></div>
+        </div>
+        <div class="cmd-panel" id="cmd-economia">
+          <div class="cmd-entry"><span class="cmd-code">/balance</span><span class="cmd-desc">Ver tu saldo actual</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/pay &lt;jugador&gt; &lt;monto&gt;</span><span class="cmd-desc">Transferir dinero</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/baltop</span><span class="cmd-desc">Ranking de riqueza</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/shop</span><span class="cmd-desc">Tienda del servidor</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/ah</span><span class="cmd-desc">Casa de subastas</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/ah sell &lt;precio&gt;</span><span class="cmd-desc">Pone a la venta el ítem en mano</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/sell hand</span><span class="cmd-desc">Vende ítem en mano</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/sell all</span><span class="cmd-desc">Vende todos los ítems vendibles</span></div>
+        </div>
+        <div class="cmd-panel" id="cmd-terrenos">
+          <div class="cmd-entry"><span class="cmd-code">/claim</span><span class="cmd-desc">Reclama el chunk actual</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/unclaim</span><span class="cmd-desc">Libera el chunk</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/trust &lt;jugador&gt;</span><span class="cmd-desc">Acceso total al terreno</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/containertrust &lt;jugador&gt;</span><span class="cmd-desc">Permite abrir cofres</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/accesstrust &lt;jugador&gt;</span><span class="cmd-desc">Solo puertas y palancas</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/untrust &lt;jugador&gt;</span><span class="cmd-desc">Quita todos los permisos</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/claimlist</span><span class="cmd-desc">Lista todos tus terrenos</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/abandonallclaims</span><span class="cmd-desc">Abandona todos los terrenos</span></div>
+        </div>
+        <div class="cmd-panel" id="cmd-social">
+          <div class="cmd-entry"><span class="cmd-code">/msg &lt;jugador&gt; &lt;mensaje&gt;</span><span class="cmd-desc">Mensaje privado</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/r &lt;mensaje&gt;</span><span class="cmd-desc">Responde último MP</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/ignore &lt;jugador&gt;</span><span class="cmd-desc">Ignorar mensajes</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/list</span><span class="cmd-desc">Jugadores conectados</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/report &lt;jugador&gt; &lt;motivo&gt;</span><span class="cmd-desc">Reporta al staff</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/warns</span><span class="cmd-desc">Ver advertencias activas</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/playtime</span><span class="cmd-desc">Ver tiempo de juego</span></div>
+        </div>
+        <div class="cmd-panel" id="cmd-staff">
+          <div class="cmd-entry"><span class="cmd-code">/ban &lt;jugador&gt; &lt;motivo&gt;</span><span class="cmd-desc">Ban permanente</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/tempban &lt;jugador&gt; &lt;tiempo&gt; &lt;motivo&gt;</span><span class="cmd-desc">Ban temporal</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/unban &lt;jugador&gt;</span><span class="cmd-desc">Desbanea un jugador</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/mute &lt;jugador&gt; &lt;tiempo&gt;</span><span class="cmd-desc">Mutea un jugador</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/unmute &lt;jugador&gt;</span><span class="cmd-desc">Quita el mute</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/warn &lt;jugador&gt; &lt;motivo&gt;</span><span class="cmd-desc">Aplica advertencia formal</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/kick &lt;jugador&gt; [motivo]</span><span class="cmd-desc">Expulsa sin banear</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/tp &lt;jugador&gt;</span><span class="cmd-desc">Teletransporte sin solicitud</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/vanish</span><span class="cmd-desc">Ocultarse de jugadores</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/invsee &lt;jugador&gt;</span><span class="cmd-desc">Ver inventario ajeno</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/logblock lookup</span><span class="cmd-desc">Revisar logs de bloques</span></div>
+          <div class="cmd-entry"><span class="cmd-code">/rollback &lt;jugador&gt;</span><span class="cmd-desc">Revertir acciones</span></div>
+        </div>
+      </div>
+
+      <!-- HERRAMIENTAS -->
+      <div class="page" id="page-herramientas">
+        <div class="s-eye">Panel de staff</div>
+        <h1 class="s-title">Herramientas Staff</h1>
+        <p class="s-desc">Accesos rápidos y recursos para el equipo. Se irán integrando funciones directas al portal.</p>
+        <div class="tools-grid">
+          <div class="tool-card"><div class="tool-icon">📋</div><div class="tool-title">Log de Sanciones</div><div class="tool-desc">Registro de baneos y mutes con fecha, motivo y responsable.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
+          <div class="tool-card"><div class="tool-icon">🎫</div><div class="tool-title">Gestión de Tickets</div><div class="tool-desc">Panel para ver y gestionar tickets de Discord desde el portal.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
+          <div class="tool-card"><div class="tool-icon">👥</div><div class="tool-title">Whitelist Manager</div><div class="tool-desc">Agregar, remover y consultar jugadores en la whitelist vía Supabase.</div><span class="tool-tag" style="color:#FDE68A;border-color:rgba(234,179,8,.25);background:rgba(234,179,8,.07)">En desarrollo</span></div>
+          <div class="tool-card"><div class="tool-icon">📊</div><div class="tool-title">Estadísticas</div><div class="tool-desc">Jugadores activos, uptime, sanciones del mes y actividad del staff.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
+          <div class="tool-card"><div class="tool-icon">📣</div><div class="tool-title">Anuncios</div><div class="tool-desc">Publicar anuncios en Discord directamente desde este panel.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
+          <div class="tool-card"><div class="tool-icon">🔍</div><div class="tool-title">Buscar Jugador</div><div class="tool-desc">Historial de sanciones, tiempo de juego y datos de cualquier jugador.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <button class="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+</div>
+
+<script>
+/* ════════════════════════════════
+   CONFIG
+════════════════════════════════ */
+const DISCORD_CLIENT_ID = '1519491535358394640';
+const REDIRECT_URI      = 'https://zazaglock.github.io/MinePlay';
+const SUPABASE_URL      = 'https://gdhhcqaubmriyjqegptd.supabase.co';
+const SUPABASE_KEY      = 'sb_publishable_7MjaPHJ2hRVe8xrF9fpb-A_gdbCnC8l';
+
+/* ════════════════════════════════
+   STARS
+════════════════════════════════ */
+(function(){
+  const c=document.getElementById('star-canvas'),ctx=c.getContext('2d');
+  let W,H,stars;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  function init(){stars=[];for(let i=0;i<160;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+.2,a:Math.random()*.7+.1,p:Math.random()*Math.PI*2,sp:Math.random()*.008+.003});}
+  function frame(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.p+=s.sp;const al=s.a*(0.5+0.5*Math.sin(s.p));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(200,220,255,${al})`;ctx.fill();});requestAnimationFrame(frame);}
+  window.addEventListener('resize',()=>{resize();init();});
+  resize();init();frame();
+})();
+
+/* ════════════════════════════════
+   HELPERS UI
+════════════════════════════════ */
+function showLoading(msg='Verificando acceso...'){
+  document.getElementById('login-overlay').style.display='none';
+  const el=document.getElementById('loading-overlay');
+  el.style.display='flex';
+  document.getElementById('loading-text').textContent=msg;
+}
+function showDenied(){
+  document.getElementById('loading-overlay').style.display='none';
+  document.getElementById('denied-overlay').style.display='flex';
+}
+function showApp(user){
+  document.getElementById('loading-overlay').style.display='none';
+  const app=document.getElementById('app');
+  app.style.display='block';app.style.opacity='0';app.style.transition='opacity .5s';
+  setTimeout(()=>app.style.opacity='1',30);
+  // avatar
+  const wrap=document.getElementById('u-av-wrap');
+  if(user.avatar){
+    wrap.innerHTML=`<img class="u-avatar" src="https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png" alt="avatar"/>`;
+  } else {
+    wrap.innerHTML=`<div class="u-avatar-placeholder">${(user.username||'?')[0].toUpperCase()}</div>`;
+  }
+  document.getElementById('u-name').textContent = user.global_name || user.username || 'Staff';
+  document.getElementById('u-role').textContent  = 'Staff';
+}
+
+/* ════════════════════════════════
+   DISCORD LOGIN
+════════════════════════════════ */
+function startDiscordLogin(){
+  const state = crypto.randomUUID();
+  sessionStorage.setItem('oauth_state', state);
+  const params = new URLSearchParams({
+    client_id:     DISCORD_CLIENT_ID,
+    redirect_uri:  REDIRECT_URI,
+    response_type: 'token',
+    scope:         'identify',
+    state:         state,
+  });
+  window.location.href = `https://discord.com/oauth2/authorize?${params}`;
+}
+
+/* ════════════════════════════════
+   HANDLE OAUTH CALLBACK
+   Discord devuelve el token en el hash (#)
+════════════════════════════════ */
+async function handleCallback(){
+  const hash   = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
+  const token  = params.get('access_token');
+  const state  = params.get('state');
+
+  if(!token) return false; // no hay callback
+
+  // limpiar hash de la URL
+  history.replaceState(null,'',window.location.pathname);
+
+  // verificar state (CSRF básico)
+  const savedState = sessionStorage.getItem('oauth_state');
+  sessionStorage.removeItem('oauth_state');
+  if(savedState && state && savedState !== state){
+    showDenied(); return true;
+  }
+
+  showLoading('Obteniendo perfil de Discord...');
+
+  try {
+    // obtener info del usuario de Discord
+    const res  = await fetch('https://discord.com/api/users/@me', {
+      headers:{ Authorization: `Bearer ${token}` }
+    });
+    if(!res.ok) throw new Error('Discord API error');
+    const user = await res.json();
+
+    showLoading('Verificando whitelist...');
+
+    // consultar Supabase — tabla "whitelist", columna "discord_id"
+    const sb = await fetch(
+      `${SUPABASE_URL}/rest/v1/whitelist?discord_id=eq.${user.id}&select=discord_id&limit=1`,
+      { headers:{
+          'apikey':        SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+      }}
+    );
+    if(!sb.ok) throw new Error('Supabase error');
+    const rows = await sb.json();
+
+    if(rows.length > 0){
+      showApp(user);
+    } else {
+      showDenied();
+    }
+  } catch(e){
+    console.error(e);
+    showDenied();
+  }
+  return true;
+}
+
+/* ════════════════════════════════
+   INIT — comprobar si venimos del callback
+════════════════════════════════ */
+(async function init(){
+  const wasCallback = await handleCallback();
+  if(!wasCallback){
+    // mostrar pantalla de login normal
+    document.getElementById('login-overlay').style.display='flex';
+  }
+})();
+
+/* ════════════════════════════════
+   NAVEGACIÓN
+════════════════════════════════ */
+const pageMap={
+  info:['Info General','Información'],
+  faq:['FAQ','Información'],
+  sanciones:['Sanciones','Normativa'],
+  mods:['Mods Prohibidos','Normativa'],
+  reglas:['Reglas','Normativa'],
+  jerarquia:['Jerarquía','Servidor'],
+  comandos:['Comandos','Servidor'],
+  herramientas:['Herramientas Staff','Staff'],
+};
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+  const n=pageMap[id];
+  document.getElementById('tb-title').textContent=n[0];
+  document.getElementById('tb-crumb').textContent=n[1];
+  if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open');
+}
+function showSanc(id,btn){
+  document.querySelectorAll('.sanc-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sanc-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sanc-'+id).classList.add('active');btn.classList.add('active');
+}
+function showCmd(id,btn){
+  document.querySelectorAll('.cmd-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.cmd-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('cmd-'+id).classList.add('active');btn.classList.add('active');
+}
+function toggleAcc(btn){
+  const item=btn.parentElement;
+  const open=item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(el=>el.classList.remove('open'));
+  if(!open)item.classList.add('open');
+}
+</script>
+</body>
+</html>
