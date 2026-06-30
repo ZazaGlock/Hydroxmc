@@ -230,13 +230,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 <!-- LOGIN -->
 <div id="login-overlay">
   <div class="login-panel">
-    <div class="login-logo"><span>Mine</span>Play</div>
+    <div class="login-logo"><span>Hydrox</span>Mc</div>
     <div class="login-badge">⚙ Staff Portal</div>
     <button class="btn-discord" id="login-btn" onclick="startDiscordLogin()">
       <svg viewBox="0 0 127.14 96.36" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M107.7 8.07A105.16 105.16 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"/></svg>
       Iniciar sesión con Discord
     </button>
-    <div class="login-note">Acceso exclusivo para <strong>Staff de MinePlay</strong>.<br>Solo usuarios en whitelist pueden ingresar.</div>
+    <div class="login-note">Acceso exclusivo para <strong>Staff de Hydrox</strong>.<br>Solo usuarios en whitelist pueden ingresar.</div>
   </div>
 </div>
 
@@ -261,7 +261,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <aside class="sidebar" id="sidebar">
     <div class="sb-header">
       <div class="sb-logo"><div class="sb-logo-icon">⛏</div><span>Mine</span>Play</div>
-      <div class="sb-online"><span class="dot-green"></span>play.mineplay.net</div>
+      <div class="sb-online"><span class="dot-green"></span>Hydroxmc.us</div>
     </div>
     <nav class="sb-nav">
       <div class="sb-label">Información</div>
@@ -275,7 +275,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <button class="nav-btn" onclick="showPage('jerarquia',this)"><span class="ni">👑</span> Jerarquía</button>
       <button class="nav-btn" onclick="showPage('comandos',this)"><span class="ni">💻</span> Comandos</button>
       <div class="sb-label">Staff</div>
-      <button class="nav-btn" onclick="showPage('herramientas',this)"><span class="ni">🛠️</span> Herramientas Staff</button>
+      <button class="nav-btn" onclick="showPage('herramientas',this)"><span class="ni">🛠️</span> Tickets</button>
     </nav>
     <div class="sb-footer">
       <div class="user-chip">
@@ -292,7 +292,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
     <div class="topbar">
       <div>
         <div class="tb-title" id="tb-title">Info General</div>
-        <div class="tb-crumb">MinePlay Staff › <span id="tb-crumb">Información</span></div>
+        <div class="tb-crumb">Hydrox Staff › <span id="tb-crumb">Información</span></div>
       </div>
       <div class="tb-right">
         <span class="pill" style="color:#4ADE80;border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.07);">● Online</span>
@@ -310,10 +310,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div class="acc-list">
           <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">💬</div><span class="acc-q">¿Qué es el Flood?</span><span class="acc-chev">▼</span></button><div class="acc-body">El flood es enviar mensajes repetidos de forma continua en el chat, ya sea el mismo texto varias veces o mensajes vacíos seguidos, con el objetivo de saturar el canal y molestar al resto de jugadores.<div class="ex"><strong>Ejemplo:</strong> "hola" · "hola" · "hola" · "alguien?" enviados en segundos. → Sanción: Advertencia → Mute 15m → Mute 30m.</div></div></div>
           <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">📢</div><span class="acc-q">¿Qué es el Spam?</span><span class="acc-chev">▼</span></button><div class="acc-body">El spam es enviar mensajes sin sentido, publicidad no solicitada o contenido repetitivo que no aporta nada a la conversación. Incluye links de otros servidores, caracteres aleatorios o copiar y pegar el mismo párrafo.<div class="ex"><strong>Sanción:</strong> Advertencia → Mute 15m → Mute 30m según el strike acumulado.</div></div></div>
-          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">📸</div><span class="acc-q">¿Qué es una SS y cómo se solicita?</span><span class="acc-chev">▼</span></button><div class="acc-body">Una SS (ScreenShot) es una captura de pantalla del cliente de juego del jugador. Se solicita cuando el staff sospecha uso de hacks. El jugador debe compartir la pantalla en vivo o enviar capturas que muestren el cliente limpio.<div class="ex"><strong>Procedimiento:</strong> Notificá al jugador por /msg → Dale máx. 5 min → Si se niega, aplicá "Refusal to SS" según tabla de sanciones.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">📸</div><span class="acc-q">¿Qué es una SS y cómo se solicita?</span><span class="acc-chev">▼</span></button><div class="acc-body">Una SS es revisarle la pc al usuario en busca de cosas ilegales. Se solicita cuando el staff sospecha uso de hacks. El jugador debe compartir su anydesk.<div class="ex"><strong>Procedimiento:</strong> Notificá al jugador "Si acepta SS o admite hacks" por /msg → Dale máx. 5 min → Si se niega, aplicá "Refusal to SS".</div></div></div>
           <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">🎫</div><span class="acc-q">¿Cómo gestionar un Ticket?</span><span class="acc-chev">▼</span></button><div class="acc-body">Los tickets son el canal oficial de soporte. Cada ticket debe responderse en un máximo de 48 hs. Antes de cerrarlo, asegurate de que el problema esté resuelto o debidamente explicado.<div class="ex"><strong>Tipos:</strong> Whitelist · Apelación de ban · Reporte · Bug report · Consulta general.</div></div></div>
-          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">⚠️</div><span class="acc-q">¿Qué es un Warn y cómo se aplica?</span><span class="acc-chev">▼</span></button><div class="acc-body">Un warn es una advertencia formal registrada en el sistema. Se usa para infracciones leves antes de aplicar un mute o ban. Los warns se acumulan como strikes y escalan la sanción correspondiente.<div class="ex"><strong>Comando:</strong> /warn [jugador] [motivo] — Los warns expiran a los 30 días.</div></div></div>
-          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">🔨</div><span class="acc-q">¿Cómo procesar una Apelación de Ban?</span><span class="acc-chev">▼</span></button><div class="acc-body">Las apelaciones solo las revisan Admins o superiores. Revisá los logs del jugador, el motivo del ban y la coherencia de lo que alega. Si el ban fue correcto, denegala con explicación. Si fue un error, levantalo y notificá al staff.<div class="ex"><strong>Criterios de aceptación:</strong> Ban por error · Primera infracción leve · Evidencia insuficiente al momento del ban.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">⚠️</div><span class="acc-q">¿Qué es un Warn?</span><span class="acc-chev">▼</span></button><div class="acc-body">Un Warn es una advertencia que se le da al staff si incumple alguna norma no tan grave.<div class="ex"><strong>Ejemplos:</strong> Dejar tickets afk, pelear con usuarios o staff en chat publico, usar caritas ":V" "xd" en chat normal, entre otras.</div></div></div>
+          <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">🔨</div><span class="acc-q">¿Que es un Strike?</span><span class="acc-chev">▼</span></button><div class="acc-body">Un Strike es una falta grave que se le da al staff si incumple alguna norma o hace algo erroneo.<div class="ex"><strong>Ejemplos:</strong> Ban por error, Insultar superiores, abusar de rango, tratar mal en ticket, entre muchas mas.</div></div></div>
           <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">📋</div><span class="acc-q">¿Qué es el Ban Evading?</span><span class="acc-chev">▼</span></button><div class="acc-body">Ban Evading es cuando un jugador sancionado entra con otra cuenta para evadir su ban activo. Extiende la sanción original y suma una nueva a la cuenta alternativa.<div class="ex"><strong>Acción:</strong> Baneá la cuenta alternativa con el tiempo restante del ban original + bonus de la tabla de evasión. Reportalo a un Admin.</div></div></div>
           <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)"><div class="acc-icon">🤝</div><span class="acc-q">¿Qué es ser Cómplice Hacker?</span><span class="acc-chev">▼</span></button><div class="acc-body">Un jugador es cómplice hacker si sabía que otro usaba hacks y no lo reportó, o colaboró activamente con el infractor para evadir la detección del staff.<div class="ex"><strong>Sanción:</strong> Misma escala que Hacks Blatant (10/20/30 días). La evidencia debe ser sólida antes de aplicar esta categoría.</div></div></div>
         </div>
@@ -335,34 +335,35 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class="page" id="page-sanciones">
         <div class="s-eye">Tabla oficial</div>
         <h1 class="s-title">Sanciones</h1>
-        <p class="s-desc">Aplicá siempre la sanción correspondiente al strike del jugador. En caso de duda, consultá a un Admin antes de ejecutar.</p>
+        <p class="s-desc">Aplicá siempre la sanción correspondiente. En caso de duda, consultá a un superior antes de sancionar.</p>
         <div class="sanc-tabs">
           <button class="sanc-tab active" onclick="showSanc('ban',this)">🔨 Baneos</button>
           <button class="sanc-tab" onclick="showSanc('mute',this)">🔇 Mutes</button>
         </div>
         <div class="sanc-panel active" id="sanc-ban">
-          <div class="section-note"><span>⚠️</span><span>Los strikes se acumulan por tipo de infracción. Consultá el historial del jugador antes de aplicar la sanción.</span></div>
+          <div class="section-note"><span>⚠️</span><span>Los baneos se acumulan por tipo de sancion. Consultá el historial del jugador antes de aplicar la sanción.</span></div>
           <div class="tw"><table class="st"><thead><tr><th>Causa</th><th class="strike-head">Strike 1</th><th class="strike-head">Strike 2</th><th class="strike-head">Strike 3+</th></tr></thead><tbody>
-            <tr><td class="inf-name">Hacks Blatant</td><td class="dur">10 Días</td><td class="dur">20 Días</td><td class="dur">30 Días</td></tr>
-            <tr><td class="inf-name">Hacks detectados en SS</td><td class="dur">15 Días</td><td class="dur">30 Días</td><td class="dur">45 Días</td></tr>
-            <tr><td class="inf-name">Hacks admitidos pre-SS</td><td class="dur">5 Días</td><td class="dur">15 Días</td><td class="dur">25 Días</td></tr>
+            <tr><td class="inf-name">Hacks Blatant</td><td class="dur">15 Días</td><td class="dur">30 Días</td><td class="dur">45 Días</td></tr>
+            <tr><td class="inf-name">Hacks in SS</td><td class="dur">30 Días</td><td class="dur">60 Días</td><td class="dur">90 Días</td></tr>
+            <tr><td class="inf-name">Hacks admitidos </td><td class="dur">10 Días</td><td class="dur">20 Días</td><td class="dur">30 Días</td></tr>
             <tr><td class="inf-name">Cómplice Hacker</td><td class="dur">10 Días</td><td class="dur">20 Días</td><td class="dur">30 Días</td></tr>
-            <tr><td class="inf-name">Evasión de Sanción (Ban Evading)</td><td class="dur">15 Días</td><td class="dur">20 Días</td><td class="dur">25 Días</td></tr>
+            <tr><td class="inf-name">Ban Evading</td><td class="dur">25 Días</td><td class="dur">40 Días</td><td class="dur">55 Días</td></tr>
             <tr><td class="inf-name">Refusal to SS</td><td class="dur">10 Días</td><td class="dur">20 Días</td><td class="dur">30 Días</td></tr>
             <tr><td class="inf-name">Uso de Mods Ilegales</td><td class="dur">5 Días</td><td class="dur">10 Días</td><td class="dur">15 Días</td></tr>
-            <tr><td class="inf-name">Abuso de Bugs (Bug Abuse)</td><td class="dur">1 Día</td><td class="dur">5 Días</td><td class="dur">10 Días</td></tr>
+            <tr><td class="inf-name">Bug Abuse</td><td class="dur">1 Día</td><td class="dur">5 Días</td><td class="dur">10 Días</td></tr>
             <tr><td class="inf-name">Estafas In-Game</td><td class="dur">3 Días</td><td class="dur">10 Días</td><td class="dur">15 Días</td></tr>
             <tr><td class="inf-name">Dupe / Doxing / Ataques DDoS</td><td class="dur perm" colspan="3" style="text-align:center;letter-spacing:.04em;">BAN PERMANENTE</td></tr>
           </tbody></table></div>
         </div>
         <div class="sanc-panel" id="sanc-mute">
-          <div class="section-note"><span>⚠️</span><span>Los strikes de mutes se cuentan por separado de los baneos y por categoría de infracción.</span></div>
-          <div class="tw"><table class="st"><thead><tr><th>Causa de Penalización</th><th class="strike-head">Strike 1</th><th class="strike-head">Strike 2</th><th class="strike-head">Strike 3+</th></tr></thead><tbody>
-            <tr><td class="inf-name">Flood / Spam Continuo</td><td class="dur" style="color:var(--muted2);font-size:.82rem">Advertencia</td><td class="dur">Mute 15m</td><td class="dur">Mute 30m</td></tr>
+          <div class="section-note"><span>⚠️</span><span>Los muteos se acumulan por tipo de mute, es decir, Toxicidad #1 === Toxicidad #2 y asi.</span></div>
+          <div class="tw"><table class="st"><thead><tr><th>Causa</th><th class="strike-head">Strike 1</th><th class="strike-head">Strike 2</th><th class="strike-head">Strike 3+</th></tr></thead><tbody>
+            <tr><td class="inf-name">Flood / Spam </td><td class="dur" style="color:var(--muted2);font-size:.82rem">Advertencia</td><td class="dur">Mute 15m</td><td class="dur">Mute 30m</td></tr>
             <tr><td class="inf-name">Lenguaje Ofensivo / Contenido +18</td><td class="dur">Mute 30m</td><td class="dur">Mute 1h</td><td class="dur">Mute 3h</td></tr>
-            <tr><td class="inf-name">Insultos directos a la Red / Servidor</td><td class="dur">Mute 1h</td><td class="dur">Mute 3h</td><td class="dur">Mute 6h</td></tr>
-            <tr><td class="inf-name">Falta de Respeto a Miembros Staff</td><td class="dur">Mute 1h</td><td class="dur">Mute 2h</td><td class="dur">Mute 4h</td></tr>
-            <tr><td class="inf-name">Divulgación de IPs de otros servidores</td><td class="dur">Mute 1 Día</td><td class="dur">Mute 3 Días</td><td class="dur">Mute 7 Días</td></tr>
+            <tr><td class="inf-name">Lenguaje +18</td><td class="dur">Mute 1h</td><td class="dur">Mute 3h</td><td class="dur">Mute 6h</td></tr>
+            <tr><td class="inf-name">Insultos al Servidor</td><td class="dur">Mute 1h</td><td class="dur">Mute 3h</td><td class="dur">Mute 6h</td></tr>
+            <tr><td class="inf-name">Insultos al Staff</td><td class="dur">Mute 1h</td><td class="dur">Mute 2h</td><td class="dur">Mute 4h</td></tr>
+            <tr><td class="inf-name">Enviar IPs de otros servidores</td><td class="dur">Mute 1 Día</td><td class="dur">Mute 3 Días</td><td class="dur">Mute 7 Días</td></tr>
             <tr><td class="inf-name">Amenazas de Doxing / Ataques de Red</td><td class="dur">Mute 12h</td><td class="dur">Mute 3 Días</td><td class="dur">Mute 7 Días</td></tr>
           </tbody></table></div>
         </div>
@@ -372,18 +373,20 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class="page" id="page-mods">
         <div class="s-eye">Modificaciones prohibidas</div>
         <h1 class="s-title">Mods Prohibidos</h1>
-        <p class="s-desc">El uso de cualquiera de estos mods resulta en sanción inmediata. Si hay duda, consultá con un Admin antes de sancionar.</p>
-        <div class="mod-warn"><span>⚠️</span><span>Si un jugador consulta si puede usar algo que no está en esta lista, pedile que abra un ticket. No respondas "sí" sin confirmación de un Admin.</span></div>
+        <p class="s-desc">El uso de cualquiera de estos mods resulta en sanción inmediata. Si hay duda, consultá con un superior antes de sancionar.</p>
+        <div class="mod-warn"><span>⚠️</span><span>Si hay algun mod que no esta en la lista y de igual forma es ilegal contactar a superiores.</span></div>
         <div class="mods-col">
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Killaura / Reach Hacks</h4><p>Atacan automáticamente o a distancias imposibles. → Sanción: Hacks Blatant.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>X-Ray / Cave Finder</h4><p>Permiten ver a través de bloques. Incluye texturepacks de X-Ray. → Sanción: Hacks Blatant o detectados en SS.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Speed / Fly Hacks</h4><p>Modifican velocidad o permiten volar fuera de zonas habilitadas. → Sanción: Hacks Blatant.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Autoclicker / Jitter Bot</h4><p>Simula clics automáticos para ventaja en combate. Incluye macros de mouse o teclado orientados a CPS. → Sanción: Uso de Mods Ilegales.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>ESP / WallHack</h4><p>Muestran posición de jugadores o ítems a través de paredes. → Sanción: Hacks Blatant.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Baritone / Auto-Mine Bots</h4><p>Automatizan minería o farmeo sin intervención del jugador. → Sanción: Uso de Mods Ilegales.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Schematica / Litematica Printer</h4><p>Solo el modo printer está prohibido. El modo visualización está permitido. → Sanción: Uso de Mods Ilegales.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Macros de Combate</h4><p>Secuencias automáticas de clics o movimientos asignadas a una tecla para optimizar PvP. → Sanción: Uso de Mods Ilegales.</p></div></div>
-          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Freecam</h4><p>Mueve la cámara desconectada del personaje para explorar bases ajenas. → Sanción: Hacks Blatant.</p></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Acurrate Block Placement</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>No input lag Tick Rate</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Attack Through Grass</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>No Mining Cooldown</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>No jump delay</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Fast Totem / Totem Helper / AutoTotem</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Auto Attack</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>HitBox expander</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Freecam</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>FireRocket Key</h4></div></div>
+          <div class="mod-row"><div class="mod-x">✕</div><div class="mod-info"><h4>Optimal Aim</h4></div></div>
         </div>
       </div>
 
@@ -391,16 +394,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <div class="page" id="page-reglas">
         <div class="s-eye">Normativa oficial</div>
         <h1 class="s-title">Reglas del Servidor</h1>
-        <p class="s-desc">Al conectarse, cada jugador acepta estas reglas. El staff puede sancionar conductas no contempladas si las considera perjudiciales.</p>
+        <p class="s-desc">Cada Staff debe seguir estas reglas.</p>
         <div class="rules-list">
-          <div class="rule-card"><div class="r-num">1</div><div class="r-bh"><h4>Respeto entre jugadores</h4><p>Trato respetuoso en todo momento. No se tolera discriminación, insultos, amenazas ni acoso de ningún tipo, ni en el servidor ni en el Discord.</p></div></div>
-          <div class="rule-card"><div class="r-num">2</div><div class="r-bh"><h4>Prohibido el griefing en cualquier forma</h4><p>Destruir o modificar construcciones ajenas está prohibido incluso sin protección. Los logs permiten rastrear todo y hacer rollback.</p></div></div>
-          <div class="rule-card"><div class="r-num">3</div><div class="r-bh"><h4>Cero tolerancia a hacks y trampas</h4><p>Uso de cualquier cliente que otorgue ventaja injusta resulta en ban inmediato. Ver sección Mods Prohibidos para detalle.</p></div></div>
-          <div class="rule-card"><div class="r-num">4</div><div class="r-bh"><h4>No al spam ni flood en el chat</h4><p>El chat es para comunicación normal. No se permite repetir mensajes, publicidad de otros servidores ni links no autorizados.</p></div></div>
-          <div class="rule-card"><div class="r-num">5</div><div class="r-bh"><h4>Proteger las construcciones es responsabilidad del jugador</h4><p>Sin /claim, el servidor no se hace responsable de pérdidas. El staff no puede recuperar ítems en terrenos sin proteger.</p></div></div>
-          <div class="rule-card"><div class="r-num">6</div><div class="r-bh"><h4>Cooperar con el staff</h4><p>Si el staff solicita una SS, el jugador debe presentarla. Negarse es sancionable. Faltar el respeto al staff suma penalización adicional.</p></div></div>
-          <div class="rule-card"><div class="r-num">7</div><div class="r-bh"><h4>No explotar glitches intencionalmente</h4><p>Reportar bugs al staff. Explotarlos intencionalmente para obtener ventaja resulta en sanción por Bug Abuse.</p></div></div>
-          <div class="rule-card"><div class="r-num">8</div><div class="r-bh"><h4>Las decisiones del staff son finales</h4><p>Las apelaciones se realizan por ticket en Discord. Discutir en el chat público o insultar al staff agrava la penalización.</p></div></div>
+          <div class="rule-card"><div class="r-num">1</div><div class="r-bh"><h4>Ser Respetuoso tanto con usuarios y staffs.</h4></div></div>
+          <div class="rule-card"><div class="r-num">2</div><div class="r-bh"><h4>Prohibido usar cualquier cosa ilegal.</h4></div></div>
+          <div class="rule-card"><div class="r-num">3</div><div class="r-bh"><h4>Prohibido que otra persona tengo acceso a tu cuenta</h4></div></div>
+          <div class="rule-card"><div class="r-num">4</div><div class="r-bh"><h4>Prohibido enviar pruebas de la sancion.</h4></div></div>
+          <div class="rule-card"><div class="r-num">5</div><div class="r-bh"><h4>Dar el tiempo exacto para la SS y hacer procedimiento correcto</h4></div></div>
+          <div class="rule-card"><div class="r-num">6</div><div class="r-bh"><h4>Proceder de manerra correcta en todos los tickets</h4></div></div>
+          <div class="rule-card"><div class="r-num">7</div><div class="r-bh"><h4>Si no saben algo pregunten, no den informacion erronea.</h4></div></div>
+          <div class="rule-card"><div class="r-num">8</div><div class="r-bh"><h4>Leer toda la guia.</h4></div></div>
         </div>
       </div>
 
@@ -410,13 +413,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <h1 class="s-title">Jerarquía</h1>
         <p class="s-desc">Rangos del servidor, responsabilidades y permisos. Los ascensos los decide exclusivamente el Owner y los Admins.</p>
         <div class="hier-list">
-          <div class="rank-card"><div class="r-icon" style="background:rgba(245,158,11,.12)">👑</div><div class="r-body"><div class="r-name">Owner</div><div class="r-desc">Máxima autoridad. Gestiona el servidor, plugins y toma las decisiones finales del proyecto.</div><div class="r-perms"><span class="r-chip">Acceso total</span><span class="r-chip">Config server</span><span class="r-chip">Whitelist</span><span class="r-chip">Consola</span></div></div><span class="r-tag" style="color:#F59E0B;border-color:#F59E0B;background:rgba(245,158,11,.1)">Owner</span></div>
-          <div class="rank-card"><div class="r-icon" style="background:rgba(239,68,68,.12)">🛡️</div><div class="r-body"><div class="r-name">Administrador</div><div class="r-desc">Gestiona whitelist, apelaciones, configuración de plugins y supervisión del equipo de staff.</div><div class="r-perms"><span class="r-chip">Ban permanente</span><span class="r-chip">Whitelist</span><span class="r-chip">Config plugins</span><span class="r-chip">Tickets</span></div></div><span class="r-tag" style="color:#EF4444;border-color:#EF4444;background:rgba(239,68,68,.1)">Admin</span></div>
-          <div class="rank-card"><div class="r-icon" style="background:rgba(139,92,246,.12)">⚖️</div><div class="r-body"><div class="r-name">Moderador</div><div class="r-desc">Aplica sanciones, revisa denuncias, gestiona tickets y mantiene el orden en servidor y Discord.</div><div class="r-perms"><span class="r-chip">Mute/Ban temporal</span><span class="r-chip">Revisar tickets</span><span class="r-chip">Rollback</span><span class="r-chip">SS</span></div></div><span class="r-tag" style="color:#8B5CF6;border-color:#8B5CF6;background:rgba(139,92,246,.1)">Mod</span></div>
-          <div class="rank-card"><div class="r-icon" style="background:rgba(6,182,212,.12)">🤝</div><div class="r-body"><div class="r-name">Helper</div><div class="r-desc">Asiste a nuevos jugadores, responde dudas y reporta incidencias al equipo moderador.</div><div class="r-perms"><span class="r-chip">Warn</span><span class="r-chip">Mute corto</span><span class="r-chip">Ver logs</span></div></div><span class="r-tag" style="color:#06B6D4;border-color:#06B6D4;background:rgba(6,182,212,.1)">Helper</span></div>
-          <div class="rank-card"><div class="r-icon" style="background:rgba(16,185,129,.12)">⭐</div><div class="r-body"><div class="r-name">VIP</div><div class="r-desc">Jugadores reconocidos por su aporte. Beneficios cosméticos y acceso a eventos exclusivos.</div><div class="r-perms"><span class="r-chip">Homes extra</span><span class="r-chip">Prefijo VIP</span><span class="r-chip">Eventos especiales</span></div></div><span class="r-tag" style="color:#10B981;border-color:#10B981;background:rgba(16,185,129,.1)">VIP</span></div>
-          <div class="rank-card"><div class="r-icon" style="background:rgba(59,130,246,.12)">🧑‍🤝‍🧑</div><div class="r-body"><div class="r-name">Jugador</div><div class="r-desc">Miembro activo con acceso completo al survival, economía y eventos del servidor.</div><div class="r-perms"><span class="r-chip">Comandos básicos</span><span class="r-chip">Claims</span><span class="r-chip">Tienda</span></div></div><span class="r-tag" style="color:var(--blue-l);border-color:var(--blue-l);background:rgba(96,165,250,.1)">Player</span></div>
-          <div class="rank-card"><div class="r-icon" style="background:rgba(148,163,184,.08)">🌱</div><div class="r-body"><div class="r-name">Nuevo</div><div class="r-desc">Rango de ingreso. Acceso limitado mientras el staff verifica y da la bienvenida al jugador.</div><div class="r-perms"><span class="r-chip">Chat</span><span class="r-chip">/spawn</span><span class="r-chip">Modo lectura</span></div></div><span class="r-tag" style="color:var(--muted2);border-color:var(--muted2);background:rgba(148,163,184,.07)">New</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(245,158,11,.12)">👑</div><div class="r-body"><div class="r-name">Administracion</div><div class="r-desc">Son la maxima autoridad, quienes toman las decisiones de importancia y manejan todo el server.</div><div class="r-perms"><span class="r-chip">Acceso total</span><span class="r-chip">Config server</span><span class="r-chip">Manejo Server</span><span class="r-chip">Decisiones Finales</span></div></div><span class="r-tag" style="color:#F59E0B;border-color:#F59E0B;background:rgba(245,158,11,.1)">Owner</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(239,68,68,.12)">🛡️</div><div class="r-body"><div class="r-name">Head Staff</div><div class="r-desc">Son aquellos quienes deben gestionar al staff, enseñar, dar roolbacks y mucho mas.</div><div class="r-perms"><span class="r-chip">Ban permanente</span><span class="r-chip">Roolbacks</span><span class="r-chip">Capacitar</span><span class="r-chip">Tickets Importantes</span></div></div><span class="r-tag" style="color:#EF4444;border-color:#EF4444;background:rgba(239,68,68,.1)">Admin</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(139,92,246,.12)">⚖️</div><div class="r-body"><div class="r-name">Medium Staff</div><div class="r-desc">Los Medium Staff pasan a poder banear, deben observar constantemente a los usuarios, ayudar a los low staff con sanciones pendientes y demas.</div><div class="r-perms"><span class="r-chip">Mute/Ban temporal</span><span class="r-chip">Revisar Sanciones Pendientes</span><span class="r-chip">Rollback</span><span class="r-chip">SS</span></div></div><span class="r-tag" style="color:#8B5CF6;border-color:#8B5CF6;background:rgba(139,92,246,.1)">Mod</span></div>
+          <div class="rank-card"><div class="r-icon" style="background:rgba(6,182,212,.12)">🤝</div><div class="r-body"><div class="r-name">Low Staff</div><div class="r-desc">Son quienes asisten a los usuarios, ya sea atentiendo sus tickets, ayudandolos en discord/minecraft y muteando..</div><div class="r-perms"><span class="r-chip">Warn</span><span class="r-chip">Mute</span><span class="r-chip">Tickets</span></div></div><span class="r-tag" style="color:#06B6D4;border-color:#06B6D4;background:rgba(6,182,212,.1)">Helper</span></div>
         </div>
       </div>
 
@@ -426,53 +426,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <h1 class="s-title">Comandos</h1>
         <p class="s-desc">Comandos organizados por categoría. [ ] opcionales, &lt; &gt; obligatorios.</p>
         <div class="cmd-tabs">
-          <button class="cmd-tab active" onclick="showCmd('hogar',this)">🏠 Hogar</button>
-          <button class="cmd-tab" onclick="showCmd('economia',this)">💰 Economía</button>
-          <button class="cmd-tab" onclick="showCmd('terrenos',this)">🛡️ Terrenos</button>
-          <button class="cmd-tab" onclick="showCmd('social',this)">💬 Social</button>
           <button class="cmd-tab" onclick="showCmd('staff',this)">⚙️ Staff</button>
-        </div>
-        <div class="cmd-panel active" id="cmd-hogar">
-          <div class="cmd-entry"><span class="cmd-code">/sethome [nombre]</span><span class="cmd-desc">Guarda tu posición como hogar</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/home [nombre]</span><span class="cmd-desc">Teletransporta a tu hogar</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/delhome &lt;nombre&gt;</span><span class="cmd-desc">Elimina un hogar guardado</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/homes</span><span class="cmd-desc">Lista todos tus hogares</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/spawn</span><span class="cmd-desc">Vuelve al spawn principal</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/back</span><span class="cmd-desc">Regresa a tu ubicación anterior</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/tpa &lt;jugador&gt;</span><span class="cmd-desc">Solicita teletransporte</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/tpahere &lt;jugador&gt;</span><span class="cmd-desc">Solicita que vengan a vos</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/tpaccept</span><span class="cmd-desc">Acepta solicitud de TP</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/tpdeny</span><span class="cmd-desc">Rechaza solicitud de TP</span></div>
-        </div>
-        <div class="cmd-panel" id="cmd-economia">
-          <div class="cmd-entry"><span class="cmd-code">/balance</span><span class="cmd-desc">Ver tu saldo actual</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/pay &lt;jugador&gt; &lt;monto&gt;</span><span class="cmd-desc">Transferir dinero</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/baltop</span><span class="cmd-desc">Ranking de riqueza</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/shop</span><span class="cmd-desc">Tienda del servidor</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/ah</span><span class="cmd-desc">Casa de subastas</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/ah sell &lt;precio&gt;</span><span class="cmd-desc">Pone a la venta el ítem en mano</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/sell hand</span><span class="cmd-desc">Vende ítem en mano</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/sell all</span><span class="cmd-desc">Vende todos los ítems vendibles</span></div>
-        </div>
-        <div class="cmd-panel" id="cmd-terrenos">
-          <div class="cmd-entry"><span class="cmd-code">/claim</span><span class="cmd-desc">Reclama el chunk actual</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/unclaim</span><span class="cmd-desc">Libera el chunk</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/trust &lt;jugador&gt;</span><span class="cmd-desc">Acceso total al terreno</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/containertrust &lt;jugador&gt;</span><span class="cmd-desc">Permite abrir cofres</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/accesstrust &lt;jugador&gt;</span><span class="cmd-desc">Solo puertas y palancas</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/untrust &lt;jugador&gt;</span><span class="cmd-desc">Quita todos los permisos</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/claimlist</span><span class="cmd-desc">Lista todos tus terrenos</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/abandonallclaims</span><span class="cmd-desc">Abandona todos los terrenos</span></div>
-        </div>
-        <div class="cmd-panel" id="cmd-social">
-          <div class="cmd-entry"><span class="cmd-code">/msg &lt;jugador&gt; &lt;mensaje&gt;</span><span class="cmd-desc">Mensaje privado</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/r &lt;mensaje&gt;</span><span class="cmd-desc">Responde último MP</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/ignore &lt;jugador&gt;</span><span class="cmd-desc">Ignorar mensajes</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/list</span><span class="cmd-desc">Jugadores conectados</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/report &lt;jugador&gt; &lt;motivo&gt;</span><span class="cmd-desc">Reporta al staff</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/warns</span><span class="cmd-desc">Ver advertencias activas</span></div>
-          <div class="cmd-entry"><span class="cmd-code">/playtime</span><span class="cmd-desc">Ver tiempo de juego</span></div>
-        </div>
         <div class="cmd-panel" id="cmd-staff">
           <div class="cmd-entry"><span class="cmd-code">/ban &lt;jugador&gt; &lt;motivo&gt;</span><span class="cmd-desc">Ban permanente</span></div>
           <div class="cmd-entry"><span class="cmd-code">/tempban &lt;jugador&gt; &lt;tiempo&gt; &lt;motivo&gt;</span><span class="cmd-desc">Ban temporal</span></div>
@@ -489,20 +443,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         </div>
       </div>
 
-      <!-- HERRAMIENTAS -->
-      <div class="page" id="page-herramientas">
+      <!-- Tickets -->
+      <div class="page" id="page-tickets">
         <div class="s-eye">Panel de staff</div>
-        <h1 class="s-title">Herramientas Staff</h1>
+        <h1 class="s-title">Tickets</h1>
         <p class="s-desc">Accesos rápidos y recursos para el equipo. Se irán integrando funciones directas al portal.</p>
         <div class="tools-grid">
-          <div class="tool-card"><div class="tool-icon">📋</div><div class="tool-title">Log de Sanciones</div><div class="tool-desc">Registro de baneos y mutes con fecha, motivo y responsable.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
-          <div class="tool-card"><div class="tool-icon">🎫</div><div class="tool-title">Gestión de Tickets</div><div class="tool-desc">Panel para ver y gestionar tickets de Discord desde el portal.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
-          <div class="tool-card"><div class="tool-icon">👥</div><div class="tool-title">Whitelist Manager</div><div class="tool-desc">Agregar, remover y consultar jugadores en la whitelist vía Supabase.</div><span class="tool-tag" style="color:#FDE68A;border-color:rgba(234,179,8,.25);background:rgba(234,179,8,.07)">En desarrollo</span></div>
-          <div class="tool-card"><div class="tool-icon">📊</div><div class="tool-title">Estadísticas</div><div class="tool-desc">Jugadores activos, uptime, sanciones del mes y actividad del staff.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
-          <div class="tool-card"><div class="tool-icon">📣</div><div class="tool-title">Anuncios</div><div class="tool-desc">Publicar anuncios en Discord directamente desde este panel.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
-          <div class="tool-card"><div class="tool-icon">🔍</div><div class="tool-title">Buscar Jugador</div><div class="tool-desc">Historial de sanciones, tiempo de juego y datos de cualquier jugador.</div><span class="tool-tag" style="color:var(--blue-l);border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.07)">Próximamente</span></div>
-        </div>
-      </div>
 
     </div>
   </div>
